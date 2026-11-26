@@ -14,5 +14,6 @@
     "featured": true,
     "rank": 1200,
     "website": "https://jasiri.benlester.me"
-  }
+  },
+  "display_name": "Jasiri apt repository"
 }
