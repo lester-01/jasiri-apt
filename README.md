@@ -19,10 +19,14 @@ The `Release` file also declares `arm` and `i686`, but those indexes are empty t
 
 ## Use it
 
-Add the source, then update and install:
+Download the repository's public signing key, then add the source with that key and install:
 
 ```
-deb https://apt.benlester.me stable jasiri-main
+curl -fsSL https://apt.benlester.me/jasiri-archive-keyring.gpg -o jasiri-archive-keyring.gpg
+```
+
+```
+deb [signed-by=/path/to/jasiri-archive-keyring.gpg] https://apt.benlester.me stable jasiri-main
 ```
 
 ```
@@ -30,7 +34,7 @@ apt update
 apt install <package>
 ```
 
-apt needs the repository's public signing key before it will trust the source. The key is published on the [website](https://jasiri.benlester.me) and is regenerated on every build, so always fetch the current one from there rather than keeping an old copy.
+Replace `/path/to/` with wherever you keep the key. The key is regenerated on every build of the repository, so fetch the current copy from [apt.benlester.me/jasiri-archive-keyring.gpg](https://apt.benlester.me/jasiri-archive-keyring.gpg) and do not keep an old one.
 
 ## Download a single package
 
