@@ -2,16 +2,24 @@
 
 **Website: [jasiri.benlester.me](https://jasiri.benlester.me)**
 
-A public Linux apt repository at `apt.benlester.me`, with downloadable package releases. It serves Debian-style `.deb` packages rebuilt for [Jasiri](https://github.com/lester-01/jasiri), the Android app that has a full Linux system and an AI assistant built in. Inside Jasiri you install them with normal `apt`. The same packages can be downloaded straight from this repository's [releases](https://github.com/lester-01/jasiri-apt/releases).
+A public, signed Debian-style apt repository at **`apt.benlester.me`**. It serves the Linux packages for [Jasiri](https://github.com/lester-01/jasiri), the Android app that gives you a full Linux system and an AI assistant on your phone. Inside Jasiri you install from it with plain `apt`. The same `.deb` files are also published here as GitHub releases, so you can download any package by hand.
 
-## What is here
+## At a glance
 
-- A signed apt index for the `stable` suite, component `jasiri-main`, for `aarch64`, `arm`, `i686` and `x86_64`. The `x86_64` index lists over 3,000 packages today.
-- Package releases on the [releases page](https://github.com/lester-01/jasiri-apt/releases): `.deb` files grouped in sets such as `main`, `x11`, `root`, `glibc` and `tur`, each for `aarch64` and `x86_64`. Each release is tagged with its set, architecture and a run number, for example `jasiri-main-x86_64-004`.
+| | |
+| --- | --- |
+| Repository URL | `https://apt.benlester.me` |
+| Suite / component | `stable` / `jasiri-main` |
+| Architectures | `aarch64` (about 3,050 packages) and `x86_64` (about 3,045 packages) |
+| Signing | The index and `Release` file are signed |
+| Index tool | [aptly](https://www.aptly.info/) |
+| Release files | [github.com/lester-01/jasiri-apt/releases](https://github.com/lester-01/jasiri-apt/releases) |
+
+The `Release` file also declares `arm` and `i686`, but those indexes are empty today.
 
 ## Use it
 
-Add the repository as an apt source (inside Jasiri, or on a compatible system), then update and install:
+Add the source, then update and install:
 
 ```
 deb https://apt.benlester.me stable jasiri-main
@@ -22,12 +30,34 @@ apt update
 apt install <package>
 ```
 
-The index and `Release` file are signed, so apt needs the repository's public signing key before it trusts the source. The key is published on the website and is regenerated on every build, so always fetch the current one from there. To fetch one package by hand, download its `.deb` from the releases page and install it with `dpkg -i`.
+apt needs the repository's public signing key before it will trust the source. The key is published on the [website](https://jasiri.benlester.me) and is regenerated on every build, so always fetch the current one from there rather than keeping an old copy.
+
+## Download a single package
+
+Every package is also attached to a GitHub release. Download the `.deb` from the [releases page](https://github.com/lester-01/jasiri-apt/releases) and install it with `dpkg -i <file>.deb`.
+
+Releases are grouped by package set and architecture, and each is tagged with a run number, for example `jasiri-main-x86_64-004`:
+
+| Set | What it holds |
+| --- | --- |
+| `main` | The core package set |
+| `x11` | Graphical (X11 and Wayland) packages |
+| `root` | Packages that need root |
+| `glibc` | glibc-based packages |
+| `tur` | Community packages, split into `continuous`, `nightly`, `multilib`, `hacking` and `on-device` |
+
+Each set is published for `aarch64` and `x86_64`.
+
+## How the packages are made
+
+The packages are rebuilt from the [Termux packages](https://github.com/termux/termux-packages) project. File paths inside some binaries are adjusted so they work in Jasiri's own storage location, the way Termux packages use a Termux prefix. The package index records the original upstream checksums (`X-Upstream-SHA256` and friends) next to each rebuilt file, so you can trace every package back to its source. Licenses for the programs are in the Linux system itself, under `usr/share/doc` and `usr/share/licenses`, and third-party notices are in the [Jasiri notices](https://github.com/lester-01/jasiri/blob/main/NOTICES.md).
+
+Jasiri is an independent product and is not affiliated with or endorsed by the Termux project.
 
 ## Notes
 
-- This repository holds the published release files only. The tool that builds and signs the indexes is kept in a separate private repository.
-- The packages are built for the Jasiri Android environment (a Termux-style prefix), so they are meant for Jasiri, not for a regular desktop Linux install.
+- Because of the adjusted paths, these packages are meant for Jasiri, not for a regular desktop Linux install.
+- This repository holds the published release files only. The tool that builds and signs the indexes lives in a separate private repository.
 
 ---
 
