@@ -2,20 +2,25 @@
 
 **Website: [jasiri.benlester.me](https://jasiri.benlester.me)**
 
-A public, signed Debian-style apt repository at **`apt.benlester.me`**. It serves the Linux packages for [Jasiri](https://github.com/lester-01/jasiri), the Android app that gives you a full Linux system and an AI assistant on your phone. Inside Jasiri you install from it with plain `apt`. The same `.deb` files are also published here as GitHub releases, so you can download any package by hand.
+The package repository for the Jasiri Linux system: a public, signed Debian-style apt repository at **`apt.benlester.me`**. [Jasiri](https://github.com/lester-01/jasiri) is an Android app that gives you a full Linux system and an AI assistant on your phone, and this is where its software comes from. Inside Jasiri you install from it with plain `apt`. The same `.deb` files are also published here as GitHub releases, so you can download any package by hand.
 
 ## At a glance
 
 | | |
-| --- | --- |
+|---|---|
 | Repository URL | `https://apt.benlester.me` |
 | Suite / component | `stable` / `jasiri-main` |
-| Architectures | `aarch64` (about 3,050 packages) and `x86_64` (about 3,045 packages) |
+| Architectures | `aarch64` and `x86_64` are published. 32-bit ARM and `i686` are declared in the index but not built yet |
+| Runs on | Android phones, and x86_64 devices and emulators |
 | Signing | The index and `Release` file are signed |
 | Index tool | [aptly](https://www.aptly.info/) |
 | Release files | [github.com/lester-01/jasiri-apt/releases](https://github.com/lester-01/jasiri-apt/releases) |
 
-The `Release` file also declares `arm` and `i686`, but those indexes are empty today.
+## How it is maintained
+
+I maintain this as a small Linux distribution. A pipeline written in Go takes upstream packages, patches them to install under Jasiri's own directory, builds and signs the apt index, and publishes the result to the repository and to the release files here. Each build is resumable and tested.
+
+Keeping up with upstream is moving to a scheduled GitHub Actions workflow (CI/CD): check for new and updated upstream packages every day, then rebuild, sign and publish only what changed, so the repository stays current without manual runs. The pipeline's code lives in a separate private repository.
 
 ## Use it
 
@@ -45,7 +50,7 @@ Every package is also attached to a GitHub release. Download the `.deb` from the
 Releases are grouped by package set and architecture, and each is tagged with a run number, for example `jasiri-main-x86_64-004`:
 
 | Set | What it holds |
-| --- | --- |
+|---|---|
 | `main` | The core package set |
 | `x11` | Graphical (X11 and Wayland) packages |
 | `root` | Packages that need root |
@@ -54,16 +59,14 @@ Releases are grouped by package set and architecture, and each is tagged with a 
 
 Each set is published for `aarch64` and `x86_64`.
 
-## How the packages are made
+## Where the packages come from
 
-The packages are rebuilt from the [Termux packages](https://github.com/termux/termux-packages) project. File paths inside some binaries are adjusted so they work in Jasiri's own storage location, the way Termux packages use a Termux prefix. The package index records the original upstream checksums (`X-Upstream-SHA256` and friends) next to each rebuilt file, so you can trace every package back to its source. Licenses for the programs are in the Linux system itself, under `usr/share/doc` and `usr/share/licenses`, and third-party notices are in the [Jasiri notices](https://github.com/lester-01/jasiri/blob/main/NOTICES.md).
-
-Jasiri is an independent product and is not affiliated with or endorsed by the Termux project.
+The packages are derived from open-source projects, with file paths inside some binaries adjusted so they work in Jasiri's own storage location. The index records the original upstream checksums (`X-Upstream-SHA256` and friends) next to each rebuilt file, so every package can be traced back to its source. Licenses for the programs are in the Linux system itself, under `usr/share/doc` and `usr/share/licenses`. The upstream projects and their licenses are listed in the [Jasiri notices](https://github.com/lester-01/jasiri/blob/main/NOTICES.md).
 
 ## Notes
 
 - Because of the adjusted paths, these packages are meant for Jasiri, not for a regular desktop Linux install.
-- This repository holds the published release files only. The tool that builds and signs the indexes lives in a separate private repository.
+- This repository holds the published release files only.
 
 ---
 
