@@ -22,7 +22,7 @@ apt update
 apt install <package>
 ```
 
-The index and `Release` file are signed, so apt will need the repository's public signing key before it trusts the source. To fetch one package by hand, download its `.deb` from the releases page and install it with `dpkg -i`.
+The index and `Release` file are signed, so apt needs the repository's public signing key before it trusts the source. The key is published on the website and is regenerated on every build, so always fetch the current one from there. To fetch one package by hand, download its `.deb` from the releases page and install it with `dpkg -i`.
 
 ## Notes
 
