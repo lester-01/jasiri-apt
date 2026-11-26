@@ -19,14 +19,16 @@ The `Release` file also declares `arm` and `i686`, but those indexes are empty t
 
 ## Use it
 
-Download the repository's public signing key, then add the source with that key and install:
+The index and `Release` file are signed. Jasiri ships with the repository's public signing key, so inside Jasiri apt already trusts this source and you can just run `apt update` and `apt install <package>`.
+
+To use the repository from another compatible system, download the public key and point the source at it:
 
 ```
-curl -fsSL https://apt.benlester.me/jasiri-archive-keyring.gpg -o jasiri-archive-keyring.gpg
+curl -fsSL https://apt.benlester.me/jasiri-archive-keyring.gpg -o /etc/apt/keyrings/jasiri-archive-keyring.gpg
 ```
 
 ```
-deb [signed-by=/path/to/jasiri-archive-keyring.gpg] https://apt.benlester.me stable jasiri-main
+deb [signed-by=/etc/apt/keyrings/jasiri-archive-keyring.gpg] https://apt.benlester.me stable jasiri-main
 ```
 
 ```
@@ -34,7 +36,7 @@ apt update
 apt install <package>
 ```
 
-Replace `/path/to/` with wherever you keep the key. The key is regenerated on every build of the repository, so fetch the current copy from [apt.benlester.me/jasiri-archive-keyring.gpg](https://apt.benlester.me/jasiri-archive-keyring.gpg) and do not keep an old one.
+The key only changes if the signing key is replaced, which would come with a Jasiri update that ships the new key.
 
 ## Download a single package
 
