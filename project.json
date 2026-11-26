@@ -11,8 +11,8 @@
   "languages": [],
   "public": {
     "listed": true,
-    "featured": false,
-    "rank": 100000,
+    "featured": true,
+    "rank": 1200,
     "website": "https://jasiri.benlester.me"
   }
 }
